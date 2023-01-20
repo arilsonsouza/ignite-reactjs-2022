@@ -11,7 +11,10 @@ export function Post({
   content,
   publishedAt,
 }) {
-  const [comments, setComments] = useState([1, 2]);
+  const [comments, setComments] = useState([
+    "Muito bom Devon, parabéns!! 👏👏",
+  ]);
+  const [newComment, setNewComment] = useState("");
 
   const publishedDateFormatted = format(
     publishedAt,
@@ -28,7 +31,13 @@ export function Post({
 
   function handleCreateNewComment(event) {
     event.preventDefault();
-    setComments([...comments, comments.length + 1]);
+
+    setComments([...comments, newComment]);
+    setNewComment("");
+  }
+
+  function newCommentChange(event) {
+    setNewComment(event.target.value);
   }
 
   return (
@@ -68,7 +77,12 @@ export function Post({
 
       <form className={styles.commentForm} onSubmit={handleCreateNewComment}>
         <strong>Deixe seu feedback</strong>
-        <textarea placeholder="Deixe um comentário" />
+        <textarea
+          placeholder="Deixe um comentário"
+          required
+          value={newComment}
+          onChange={newCommentChange}
+        />
         <footer>
           <button type="submit">Publicar</button>
         </footer>
@@ -76,7 +90,7 @@ export function Post({
 
       <div className={styles.commentList}>
         {comments.map((comment) => (
-          <Comment />
+          <Comment content={comment} />
         ))}
       </div>
     </article>
